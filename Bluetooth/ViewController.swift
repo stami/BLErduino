@@ -15,9 +15,13 @@ let transferServiceUUID = CBUUID(string: "FFE0")
 let transferCharacteristicUUID = CBUUID(string: "FFE1")
 
 
+
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
-    
-    @IBOutlet weak var textView: UITextView!
+
+
+    // Outlets
+    @IBOutlet weak var receivedTextView: UITextView!
+    @IBOutlet weak var sentTextView: UITextView!
 
     @IBOutlet weak var sendTextField: UITextField!
 
@@ -28,11 +32,30 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
 
+    @IBOutlet weak var throttleSlider: UISlider!
+    @IBOutlet weak var throttleSliderLabel: UILabel!
+
+    @IBAction func throttleSliderValueChanged(sender: UISlider) {
+
+        var currentValue = Int(sender.value)
+        // print("original: \(currentValue)")
+
+        //writeValue("\(currentValue)")
+        writeInt(currentValue)
+
+    }
+
+
+    // Private data members
     private var centralManager: CBCentralManager?
     private var discoveredPeripheral: CBPeripheral?
     private var discoveredCharacteristic: CBCharacteristic?
 
-    private let data = NSMutableData()
+    private var sentData: String = ""
+    private let receivedData = NSMutableData()
+
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +84,13 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     }
 
 
+
+
     func writeValue(data: String){
+
+        sentData += data + "\n"
+        sentTextView.text = sentData
+
         if let data = (data as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
             if let peripheralDevice = discoveredPeripheral {
                 if let deviceCharacteristics = discoveredCharacteristic {
@@ -70,6 +99,27 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             }
         }
     }
+
+    func writeInt(data: Int){
+
+        sentData += "\(data)\n"
+        sentTextView.text = sentData
+
+        var mutabledata = Int8(data)
+        print("int8: \(mutabledata)")
+
+        throttleSliderLabel.text = "\((mutabledata - 63) * 4)"
+
+        let data = NSData(bytes: &mutabledata, length: sizeof(Int8))
+
+        if let peripheralDevice = discoveredPeripheral {
+            if let deviceCharacteristics = discoveredCharacteristic {
+                peripheralDevice.writeValue(data, forCharacteristic: deviceCharacteristics, type: CBCharacteristicWriteType.WithoutResponse)
+            }
+        }
+    }
+
+
 
 
     /** centralManagerDidUpdateState is a required protocol method.
@@ -152,7 +202,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         print("Scanning stopped")
 
         // Clear the data that we may already have
-        data.length = 0
+        receivedData.length = 0
 
         // Make sure we get the discovery callbacks
         peripheral.delegate = self
@@ -232,10 +282,10 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
 
             print("Received: \(stringFromData)")
 
-            data.appendData(characteristic.value!)
+            receivedData.appendData(characteristic.value!)
 
             // We have, so show the data,
-            textView.text = NSString(data: (data.copy() as! NSData) as NSData, encoding: NSUTF8StringEncoding) as! String
+            receivedTextView.text = NSString(data: (receivedData.copy() as! NSData) as NSData, encoding: NSUTF8StringEncoding) as! String
 
             // Cancel our subscription to the characteristic
             //peripheral.setNotifyValue(false, forCharacteristic: characteristic)
