@@ -63,20 +63,44 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="63" minValue="0.0" maxValue="126" translatesAutoresizingMaskIntoConstraints="NO" id="NLL-hq-PPE">
-                                <rect key="frame" x="18" y="322" width="284" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="31" minValue="0.0" maxValue="63" translatesAutoresizingMaskIntoConstraints="NO" id="NLL-hq-PPE">
+                                <rect key="frame" x="18" y="375" width="119" height="31"/>
                                 <connections>
-                                    <action selector="throttleSliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="gFY-de-UbY"/>
+                                    <action selector="streeringSliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="gCO-Uu-M3i"/>
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Throttle:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dso-Ku-bKE">
-                                <rect key="frame" x="16" y="303" width="66" height="21"/>
+                                <rect key="frame" x="181" y="303" width="66" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9H-Dx-jXy">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9H-Dx-jXy">
+                                <rect key="frame" x="255" y="303" width="45" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="45" id="q52-dw-Dqc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="95" minValue="64" maxValue="127" translatesAutoresizingMaskIntoConstraints="NO" id="8em-I3-1Ft">
+                                <rect key="frame" x="184" y="375" width="118" height="31"/>
+                                <connections>
+                                    <action selector="throttleSliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="2s5-FM-MuU"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Steering:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xp7-BK-Tp4">
+                                <rect key="frame" x="13" y="303" width="69" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHC-Se-9Dn">
                                 <rect key="frame" x="90" y="303" width="45" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="45" id="nXb-Pp-lOZ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -88,22 +112,30 @@
                             <constraint firstItem="dso-Ku-bKE" firstAttribute="top" secondItem="tps-tQ-qAW" secondAttribute="bottom" constant="8" symbolic="YES" id="2Z9-rF-Nan"/>
                             <constraint firstItem="vIv-MC-yir" firstAttribute="leading" secondItem="ni6-V2-Cjx" secondAttribute="leading" id="5zB-ps-P6p"/>
                             <constraint firstItem="YJs-NO-hdM" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="6K1-jC-Fau"/>
+                            <constraint firstItem="E9H-Dx-jXy" firstAttribute="leading" secondItem="dso-Ku-bKE" secondAttribute="trailing" constant="8" symbolic="YES" id="CRV-RX-6WB"/>
                             <constraint firstItem="YJs-NO-hdM" firstAttribute="leading" secondItem="20c-YA-7Er" secondAttribute="trailing" constant="8" symbolic="YES" id="Dh2-87-5OJ"/>
                             <constraint firstItem="ni6-V2-Cjx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="EBn-6g-rge"/>
                             <constraint firstItem="20c-YA-7Er" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Evs-WG-t0L"/>
+                            <constraint firstItem="SHC-Se-9Dn" firstAttribute="baseline" secondItem="dso-Ku-bKE" secondAttribute="baseline" id="GLO-B6-y4M"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="tps-tQ-qAW" secondAttribute="bottom" constant="185" id="Gp4-vq-lJh"/>
+                            <constraint firstItem="Xp7-BK-Tp4" firstAttribute="baseline" secondItem="SHC-Se-9Dn" secondAttribute="baseline" id="Mq1-n6-0m0"/>
                             <constraint firstItem="ni6-V2-Cjx" firstAttribute="top" secondItem="vIv-MC-yir" secondAttribute="bottom" constant="8" symbolic="YES" id="NoM-Sr-iCN"/>
                             <constraint firstItem="tps-tQ-qAW" firstAttribute="trailing" secondItem="ni6-V2-Cjx" secondAttribute="trailing" id="QqY-UH-yiw"/>
-                            <constraint firstItem="dso-Ku-bKE" firstAttribute="leading" secondItem="tps-tQ-qAW" secondAttribute="leading" id="TJY-NO-uoG"/>
+                            <constraint firstItem="dso-Ku-bKE" firstAttribute="leading" secondItem="tps-tQ-qAW" secondAttribute="leading" constant="165" id="TJY-NO-uoG"/>
+                            <constraint firstItem="8em-I3-1Ft" firstAttribute="top" secondItem="E9H-Dx-jXy" secondAttribute="bottom" constant="51" id="Ubk-xg-sQh"/>
                             <constraint firstItem="E1j-YV-mnM" firstAttribute="leading" secondItem="tps-tQ-qAW" secondAttribute="leading" id="bxI-cj-grW"/>
+                            <constraint firstItem="SHC-Se-9Dn" firstAttribute="trailing" secondItem="NLL-hq-PPE" secondAttribute="trailing" id="dWI-HZ-tnE"/>
+                            <constraint firstItem="E9H-Dx-jXy" firstAttribute="baseline" secondItem="dso-Ku-bKE" secondAttribute="baseline" id="eYI-f9-X8y"/>
+                            <constraint firstItem="E9H-Dx-jXy" firstAttribute="trailing" secondItem="8em-I3-1Ft" secondAttribute="trailing" id="fx6-Cf-CdH"/>
                             <constraint firstItem="E1j-YV-mnM" firstAttribute="top" secondItem="ni6-V2-Cjx" secondAttribute="bottom" constant="7" id="gdM-3q-UIo"/>
                             <constraint firstItem="vIv-MC-yir" firstAttribute="leading" secondItem="20c-YA-7Er" secondAttribute="leading" id="hgl-aw-xrS"/>
                             <constraint firstItem="YJs-NO-hdM" firstAttribute="top" secondItem="20c-YA-7Er" secondAttribute="top" id="hnM-0o-U4m"/>
                             <constraint firstItem="tps-tQ-qAW" firstAttribute="top" secondItem="E1j-YV-mnM" secondAttribute="bottom" constant="8" symbolic="YES" id="ngx-dE-83z"/>
+                            <constraint firstItem="SHC-Se-9Dn" firstAttribute="leading" secondItem="Xp7-BK-Tp4" secondAttribute="trailing" constant="8" symbolic="YES" id="pWR-oU-d6u"/>
                             <constraint firstItem="tps-tQ-qAW" firstAttribute="leading" secondItem="ni6-V2-Cjx" secondAttribute="leading" id="tW9-vY-5Nk"/>
-                            <constraint firstItem="NLL-hq-PPE" firstAttribute="centerX" secondItem="tps-tQ-qAW" secondAttribute="centerX" id="u9T-6h-XTa"/>
-                            <constraint firstItem="NLL-hq-PPE" firstAttribute="top" secondItem="tps-tQ-qAW" secondAttribute="bottom" constant="27" id="vBJ-0C-NI7"/>
-                            <constraint firstItem="NLL-hq-PPE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="vQr-c3-Quv"/>
+                            <constraint firstItem="NLL-hq-PPE" firstAttribute="centerX" secondItem="tps-tQ-qAW" secondAttribute="centerX" constant="-82.5" id="u9T-6h-XTa"/>
+                            <constraint firstItem="NLL-hq-PPE" firstAttribute="top" secondItem="tps-tQ-qAW" secondAttribute="bottom" constant="80" id="vBJ-0C-NI7"/>
+                            <constraint firstItem="NLL-hq-PPE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="vQr-c3-Quv"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ni6-V2-Cjx" secondAttribute="bottom" constant="303" id="x7N-vU-Ife"/>
                             <constraint firstItem="YJs-NO-hdM" firstAttribute="trailing" secondItem="ni6-V2-Cjx" secondAttribute="trailing" id="ytQ-qn-yPP"/>
                         </constraints>
@@ -114,7 +146,9 @@
                         <outlet property="receivedTextView" destination="ni6-V2-Cjx" id="LiK-uu-mFh"/>
                         <outlet property="sendTextField" destination="20c-YA-7Er" id="0bp-4G-jxw"/>
                         <outlet property="sentTextView" destination="tps-tQ-qAW" id="1tE-t6-37y"/>
-                        <outlet property="throttleSlider" destination="NLL-hq-PPE" id="IbL-5b-HIh"/>
+                        <outlet property="steeringSlider" destination="NLL-hq-PPE" id="vXs-CE-vXX"/>
+                        <outlet property="steeringSliderLabel" destination="SHC-Se-9Dn" id="eoz-zi-1iV"/>
+                        <outlet property="throttleSlider" destination="8em-I3-1Ft" id="rBZ-QF-YBU"/>
                         <outlet property="throttleSliderLabel" destination="E9H-Dx-jXy" id="MaM-dh-JyK"/>
                     </connections>
                 </viewController>

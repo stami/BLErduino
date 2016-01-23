@@ -10,21 +10,19 @@ import UIKit
 import CoreBluetooth
 
 
-// Hard coded values for my chip
+// Hard coded values for my BLE chip
 let transferServiceUUID = CBUUID(string: "FFE0")
 let transferCharacteristicUUID = CBUUID(string: "FFE1")
 
 
-
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
-
 
     // Outlets
     @IBOutlet weak var receivedTextView: UITextView!
     @IBOutlet weak var sentTextView: UITextView!
 
+    // Textfield on top
     @IBOutlet weak var sendTextField: UITextField!
-
     @IBAction func sendButton(sender: AnyObject) {
         if let text = sendTextField.text {
             writeValue(text)
@@ -32,15 +30,32 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
 
-    @IBOutlet weak var throttleSlider: UISlider!
+    // Throttle
     @IBOutlet weak var throttleSliderLabel: UILabel!
-
+    @IBOutlet weak var throttleSlider: UISlider! {
+        didSet {
+            // Rotate slider to be vertical
+            throttleSlider.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
+        }
+    }
     @IBAction func throttleSliderValueChanged(sender: UISlider) {
 
-        var currentValue = Int(sender.value)
+        let currentValue = Int(sender.value)
         // print("original: \(currentValue)")
+        throttleSliderLabel.text = "\(currentValue)"
+        writeInt(currentValue)
 
-        //writeValue("\(currentValue)")
+    }
+
+
+    // Steering
+    @IBOutlet weak var steeringSliderLabel: UILabel!
+    @IBOutlet weak var steeringSlider: UISlider!
+    @IBAction func streeringSliderValueChanged(sender: UISlider) {
+
+        let currentValue = Int(sender.value)
+        // print("original: \(currentValue)")
+        steeringSliderLabel.text = "\(currentValue)"
         writeInt(currentValue)
 
     }
@@ -51,10 +66,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     private var discoveredPeripheral: CBPeripheral?
     private var discoveredCharacteristic: CBCharacteristic?
 
+    // Log for debugging purposes
     private var sentData: String = ""
     private let receivedData = NSMutableData()
-
-
 
 
     override func viewDidLoad() {
@@ -85,11 +99,12 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
 
 
 
-
+    // Send text to the device
     func writeValue(data: String){
 
-        sentData += data + "\n"
+        sentData += "\(data)\n"
         sentTextView.text = sentData
+        sentTextView.scrollRangeToVisible(NSMakeRange(sentTextView.text.characters.count - 1, 0));
 
         if let data = (data as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
             if let peripheralDevice = discoveredPeripheral {
@@ -100,15 +115,15 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
 
+    // Send 8-bit integer to the device
     func writeInt(data: Int){
 
         sentData += "\(data)\n"
         sentTextView.text = sentData
+        sentTextView.scrollRangeToVisible(NSMakeRange(sentTextView.text.characters.count - 1, 0));
 
         var mutabledata = Int8(data)
         print("int8: \(mutabledata)")
-
-        throttleSliderLabel.text = "\((mutabledata - 63) * 4)"
 
         let data = NSData(bytes: &mutabledata, length: sizeof(Int8))
 
@@ -118,6 +133,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             }
         }
     }
+
+    // The rest below is mostly straight from the Apple's BLE example
 
 
 
@@ -363,7 +380,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
                 }
             }
         }
-        
+
         // If we've got this far, we're connected, but we're not subscribed, so we just disconnect
         centralManager?.cancelPeripheralConnection(discoveredPeripheral!)
     }

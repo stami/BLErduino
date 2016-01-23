@@ -1,66 +1,61 @@
 
 
-int incomingByte = 0;   // for incoming serial data
+byte incomingByte = 0;   // for incoming serial data
 
-String inString = "";    // string to hold input
-
+// Motor pins
 int motor1 = 6;
 int motor2 = 7;
 
+// Servo
+#include <Servo.h>
+Servo servo;
+int servoPin = 3;
+
 
 void setup() {
-  // put your setup code here, to run once:
 
-  // USB Serial
+  // USB Serial (for debugging)
   Serial.begin(9600);
 
   // BLE module
   Serial1.begin(9600);
 
-
   pinMode(motor1, OUTPUT);
   pinMode(motor2, OUTPUT);
 
+  // Initialize motor pins to zero
   digitalWrite(motor1, LOW);
   digitalWrite(motor2, LOW);
-  
+
+  // Tell servo library to use this pin
+  servo.attach(servoPin);
 }
 
 
 void loop() {
 
-/*
-  digitalWrite(6, HIGH);
-  delay(1000);
-  digitalWrite(6, LOW);
-  delay(1000);
-  digitalWrite(7, HIGH);
-  delay(1000);
-  digitalWrite(7, LOW);
-  delay(1000);
- */
-
-  // read from Bluetooth, send to USB serial
+  // read from Bluetooth serial
   if (Serial1.available()) {
 
-    // Int8 sent from iOS
+    // Int8 received from iOS app
     incomingByte = Serial1.read();
 
-    
+    // Dump to USB serial
     Serial.write("BLE: ");
-    //Serial.println(incomingByte);
-    //Serial.println(incoming);
+    Serial.println(incomingByte);
 
-    int speed = (incomingByte - 63) * 4;
-    Serial.println(speed);
-
-    setSpeed(speed);
-
+    // The range 0...127 is divided between steering and throttling
+    if (incomingByte < 64) {
+      // 0...63
+      setSteering(incomingByte);
+    } else {
+      // 64...127
+      setThrottle(incomingByte);
+    }
 
   }
-  
 
-  // read from USB, send via Bluetooth
+  // read from USB, send via Bluetooth (for testing)
   if (Serial.available()) {
     Serial1.write(Serial.read());
   }
@@ -68,31 +63,57 @@ void loop() {
 }
 
 
-// -252 <= speed <= 256
-void setSpeed(int speed) {
-  
-  if (speed < 0) {
-    // reverse
 
-    analogWrite(motor2, -speed);
-    digitalWrite(motor1, LOW);
-    
-  }
-  else if (speed == 0) {
-    // stop
-    digitalWrite(motor1, LOW);
-    digitalWrite(motor2, LOW);
-    
-  }
-  else {
-    // forward
-    analogWrite(motor1, speed);
-    digitalWrite(motor2, LOW);
-  }
-   
+/**
+ * Set Steering
+ * 0 <= incoming <= 63
+ * Map the incoming value to the servo angle
+ */
+void setSteering(byte incoming) {
+
+  // Map the value
+  // 30 - 150 to prevent my steering assembly from breaking
+  int angle = map(incoming, 0, 63, 30, 150);
+
+  servo.write(angle);
+
 }
 
 
+/**
+ * Set Throttle
+ * 64 <= incoming <= 127
+ *
+ * Lower:   < 95 => Reverse
+ * Middle: == 95 => Stop
+ * Upper:   > 95 => Forward
+ */
+void setThrottle(byte incoming) {
 
+  int speed; // mapped value
 
+  // Reverse
+  if (incoming < 95) {
+    // Map the value 64...94 to 0...255
+    speed = map(incoming, 64, 94, 255, 0);
 
+    analogWrite(motor2, speed);
+    digitalWrite(motor1, LOW);
+  }
+
+  // Stop
+  else if (incoming == 95) {
+    digitalWrite(motor1, LOW);
+    digitalWrite(motor2, LOW);
+  }
+
+  // Forward
+  else {
+    // Map the value 96...127 to 0...255
+    speed = map(incoming, 95, 127, 0, 255);
+
+    analogWrite(motor1, speed);
+    digitalWrite(motor2, LOW);
+  }
+
+}
